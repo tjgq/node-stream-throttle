@@ -1,0 +1,1 @@
+exports.Throttle = require('./src/throttle.js');

@@ -1,0 +1,12 @@
+{
+  "name": "stream-throttle",
+  "description": "A rate limiter for Node.js streams.",
+  "version": "0.1.0",
+  "author": "Tiago Quelhas",
+  "license": "BSD",
+  "main": "./index.js",
+  "dependencies": {
+    "limiter": "~1.0.4",
+    "commander": "~2.0.0"
+  }
+}
