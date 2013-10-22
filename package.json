@@ -5,6 +5,10 @@
   "author": "Tiago Quelhas",
   "license": "BSD",
   "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/tjgq/node-stream-throttle.git"
+  },
   "dependencies": {
     "limiter": "~1.0.4",
     "commander": "~2.0.0"
