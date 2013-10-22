@@ -1,6 +1,6 @@
 var net = require('net');
 var opts = require('commander');
-var Throttle = require('../src/throttle.js');
+var Throttle = require('../src/throttle.js').Throttle;
 
 function parseAddr(addr) {
     var result = /^(([^:]*):)?(\d+)$/.exec(addr);

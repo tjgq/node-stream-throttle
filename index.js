@@ -1,1 +1,1 @@
-exports.Throttle = require('./src/throttle.js');
+module.exports = require('./src/throttle.js');

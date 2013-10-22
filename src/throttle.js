@@ -2,26 +2,13 @@ var inherits = require('util').inherits;
 var Transform = require('stream').Transform;
 var TokenBucket = require('limiter').TokenBucket;
 
-module.exports = Throttle;
-
-function Throttle(opts) {
-    if (!(this instanceof Throttle))
-        return new Throttle(opts);
-
-    opts = opts || {};
-    if (opts.rate === undefined)
-        throw new Error('Throttle constructor requires rate argument');
-    if (typeof opts.rate !== 'number' || opts.rate <= 0)
-        throw new Error('Throttle rate must be a positive number');
-    if (opts.chunksize !== undefined && (typeof opts.chunksize !== 'number' || opts.chunksize <= 0)) {
-        throw new Error('Throttle chunk size must be a positive number');
-    }
-
+function Throttle(opts, group) {
+    var group;
+    if (group === undefined)
+        group = new ThrottleGroup(opts);
+    this.bucket = group.bucket;
+    this.chunksize = group.chunksize;
     Transform.call(this, opts);
-
-    this.rate = opts.rate;
-    this.chunksize = opts.chunksize || this.rate/10;
-    this.bucket = new TokenBucket(this.rate, this.rate, 'second', null);
 }
 inherits(Throttle, Transform);
 
@@ -45,3 +32,30 @@ function process(self, chunk, pos, done) {
         process(self, chunk, pos + self.chunksize, done);
     });
 }
+
+function ThrottleGroup(opts) {
+    if (!(this instanceof ThrottleGroup))
+        return new ThrottleGroup(opts);
+
+    opts = opts || {};
+    if (opts.rate === undefined)
+        throw new Error('throttle rate is a required argument');
+    if (typeof opts.rate !== 'number' || opts.rate <= 0)
+        throw new Error('throttle rate must be a positive number');
+    if (opts.chunksize !== undefined && (typeof opts.chunksize !== 'number' || opts.chunksize <= 0)) {
+        throw new Error('throttle chunk size must be a positive number');
+    }
+
+    this.rate = opts.rate;
+    this.chunksize = opts.chunksize || this.rate/10;
+    this.bucket = new TokenBucket(this.rate, this.rate, 'second', null);
+}
+
+ThrottleGroup.prototype.throttle = function(opts) {
+    return new Throttle(opts, this);
+}
+
+module.exports = {
+    Throttle: Throttle,
+    ThrottleGroup: ThrottleGroup
+};
