@@ -67,7 +67,7 @@ function ThrottleGroup(opts) {
  */
 ThrottleGroup.prototype.throttle = function(opts) {
     return new Throttle(opts, this);
-}
+};
 
 module.exports = {
     Throttle: Throttle,
