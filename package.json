@@ -9,6 +9,9 @@
     "type": "git",
     "url": "http://github.com/tjgq/node-stream-throttle.git"
   },
+  "scripts": {
+    "test": "nodeunit test"
+  },
   "dependencies": {
     "limiter": "~1.0.4",
     "commander": "~2.0.0"
