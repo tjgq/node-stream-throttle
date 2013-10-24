@@ -2,6 +2,13 @@ var inherits = require('util').inherits;
 var Transform = require('stream').Transform;
 var TokenBucket = require('limiter').TokenBucket;
 
+/*
+ * Throttle is a throttled stream implementing the stream.Transform interface.
+ * Options:
+ *    rate (mandatory): the throttling rate in bytes per second.
+ *    chunksize (optional): the maximum chunk size into which larger writes are decomposed.
+ * Any other options are passed to stream.Transform.
+ */
 function Throttle(opts, group) {
     var group;
     if (group === undefined)
@@ -33,6 +40,10 @@ function process(self, chunk, pos, done) {
     });
 }
 
+/*
+ * ThrottleGroup throttles an aggregate of streams.
+ * Options are the same as for Throttle.
+ */
 function ThrottleGroup(opts) {
     if (!(this instanceof ThrottleGroup))
         return new ThrottleGroup(opts);
@@ -51,6 +62,10 @@ function ThrottleGroup(opts) {
     this.bucket = new TokenBucket(this.rate, this.rate, 'second', null);
 }
 
+/*
+ * Create a new stream in the throttled group and returns it.
+ * Any supplied options are passed to the Throttle constructor.
+ */
 ThrottleGroup.prototype.throttle = function(opts) {
     return new Throttle(opts, this);
 }
