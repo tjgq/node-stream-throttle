@@ -10,7 +10,6 @@ var TokenBucket = require('limiter').TokenBucket;
  * Any other options are passed to stream.Transform.
  */
 function Throttle(opts, group) {
-    var group;
     if (group === undefined)
         group = new ThrottleGroup(opts);
     this.bucket = group.bucket;
