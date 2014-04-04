@@ -2,7 +2,7 @@
 
 A rate limiter for Node.js streams.
 
-## Overview
+## API usage
 
 This module exports two classes, `Throttle` and `ThrottleGroup`.
 
@@ -31,6 +31,10 @@ For example, the following code creates two HTTP connections to `www.google.com:
         thr2 = conn2.pipe(tg.throttle());
 
     // Reads from thr1 and thr2 are throttled to 10 KB/s in aggregate
+
+## Command line usage
+
+This package installs a `throttleproxy` binary which implements a command-line utility for throttling connections. Run `throttleproxy -h` for instructions.
 
 ## Contributing
 
