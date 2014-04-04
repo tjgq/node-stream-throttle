@@ -13,7 +13,10 @@
     "test": "nodeunit test"
   },
   "dependencies": {
-    "limiter": "~1.0.4",
-    "commander": "~2.0.0"
+    "commander": "^2.2.0",
+    "limiter": "^1.0.5"
+  },
+  "devDependencies": {
+    "async": "^0.6.2"
   }
 }

@@ -1,4 +1,4 @@
-
+var async = require('async');
 var Throttle = require('../index.js').Throttle;
 var ThrottleGroup = require('../index.js').ThrottleGroup;
 
@@ -35,15 +35,15 @@ exports.testThrottle = function(test) {
 };
 
 exports.testGroupThrottle = function(test) {
-    var testCount = 3, doneCount = 0;
     var tg = new ThrottleGroup(opts);
 
-    test.expect(testCount);
-    for (var i = 0; i < testCount; i++) {
+    test.expect(3);
+    async.each([1, 2, 3], function(i, done) {
         testSendRecv(tg.throttle(), function(ok) {
             test.ok(ok, "received string should equal sent string");
-            if (++doneCount == testCount)
-                test.done();
+            done();
         });
-    }
+    }, function() {
+        test.done();
+    });
 };
