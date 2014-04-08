@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var net = require('net');
 var opts = require('commander');
 var Throttle = require('../src/throttle.js').Throttle;
