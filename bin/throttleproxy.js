@@ -29,7 +29,16 @@ function runProxy(localAddr, remoteAddr, downRate, upRate) {
         var remoteThrottle = new Throttle({rate: downRate});
 
         local.pipe(localThrottle).pipe(remote);
+        local.on('error', function() {
+            remote.destroy();
+            local.destroy();
+        });
+
         remote.pipe(remoteThrottle).pipe(local);
+        remote.on('error', function() {
+            local.destroy();
+            remote.destroy();
+        });
     });
 
     server.listen(localAddr.port, localAddr.host);
